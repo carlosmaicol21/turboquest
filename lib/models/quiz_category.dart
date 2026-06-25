@@ -1,0 +1,1 @@
+enum QuizCategory { bolivia, oruro }
