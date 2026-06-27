@@ -1,1 +1,1 @@
-enum QuizCategory { bolivia, oruro }
+enum QuizCategory { quiz }

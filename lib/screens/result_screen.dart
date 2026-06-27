@@ -25,15 +25,14 @@ class ResultScreen extends StatelessWidget {
 
   String getMessage() {
     final percentage = score / totalQuestions;
-    final categoryName = category == QuizCategory.bolivia ? 'Bolivia' : 'Oruro';
     if (percentage >= 0.9) {
-      return '¡Excelente! Eres un experto en $categoryName 🇧🇴';
+      return '¡Excelente! Eres un experto en Bolivia 🇧🇴';
     } else if (percentage >= 0.7) {
-      return '¡Muy bien! Conoces bastante de $categoryName 👍';
+      return '¡Muy bien! Conoces bastante de Bolivia 👍';
     } else if (percentage >= 0.5) {
       return '¡Bien! Puedes mejorar tu conocimiento 📚';
     } else {
-      return '¡Sigue aprendiendo sobre $categoryName! 💪';
+      return '¡Sigue aprendiendo sobre Bolivia! 💪';
     }
   }
 

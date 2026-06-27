@@ -5,6 +5,8 @@ import '../widgets/category_card.dart';
 import '../utils/app_theme.dart';
 import '../services/storage_service.dart';
 import 'quiz_screen.dart';
+import 'word_completion_screen.dart';
+import 'word_search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -156,19 +158,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   
                   const SizedBox(height: 30),
                   
-                  // Bolivia Card
+                  // Quiz Card
                   CategoryCard(
-                    title: 'BOLIVIA',
-                    subtitle: 'Conocimientos generales del país',
-                    icon: Icons.flag,
+                    title: 'QUIZ',
+                    subtitle: 'Preguntas sobre Bolivia y Oruro',
+                    icon: Icons.quiz,
                     color: AppTheme.primaryRed,
-                    questionsCount: QuizData.boliviaQuestions.length,
-                    category: QuizCategory.bolivia,
+                    questionsCount: QuizData.quizQuestions.length,
+                    category: QuizCategory.quiz,
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => QuizScreen(category: QuizCategory.bolivia),
+                          builder: (context) => QuizScreen(category: QuizCategory.quiz),
                         ),
                       );
                     },
@@ -176,19 +178,39 @@ class _HomeScreenState extends State<HomeScreen> {
                   
                   const SizedBox(height: 20),
                   
-                  // Oruro Card
+                  // Word Completion Card
                   CategoryCard(
-                    title: 'ORURO',
-                    subtitle: 'Capital del Folklore Boliviano',
-                    icon: Icons.celebration,
-                    color: AppTheme.primaryYellow,
-                    questionsCount: QuizData.oruroQuestions.length,
-                    category: QuizCategory.oruro,
+                    title: 'COMPLETA LA PALABRA',
+                    subtitle: 'Completa palabras relacionadas con Bolivia',
+                    icon: Icons.spellcheck,
+                    color: AppTheme.primaryGreen,
+                    questionsCount: 15,
+                    category: QuizCategory.quiz,
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => QuizScreen(category: QuizCategory.oruro),
+                          builder: (context) => const WordCompletionScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                  
+                  const SizedBox(height: 20),
+                  
+                  // Word Search Card
+                  CategoryCard(
+                    title: 'SOPA DE LETRAS',
+                    subtitle: 'Encuentra palabras escondidas',
+                    icon: Icons.grid_on,
+                    color: AppTheme.primaryYellow,
+                    questionsCount: 5,
+                    category: QuizCategory.quiz,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const WordSearchScreen(),
                         ),
                       );
                     },

@@ -27,9 +27,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
 
-  List<Question> get questions => widget.category == QuizCategory.bolivia
-      ? QuizData.boliviaQuestions
-      : QuizData.oruroQuestions;
+  List<Question> get questions => QuizData.quizQuestions;
 
   @override
   void initState() {

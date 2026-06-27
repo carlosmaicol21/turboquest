@@ -1,7 +1,7 @@
 import '../models/question.dart';
 
 class QuizData {
-  static final List<Question> boliviaQuestions = [
+  static final List<Question> quizQuestions = [
     Question(
       questionText: '¿En qué fecha se declaró la independencia de Bolivia?',
       options: ['16 de julio de 1809', '6 de agosto de 1825', '25 de mayo de 1809', '23 de marzo de 1879'],
@@ -282,9 +282,6 @@ class QuizData {
       imageAsset: 'assets/images/imagenBo40.png',
       funFact: 'La Reserva Biológica Cordillera de Sama alberga cóndores, vicuñas y pumas en diferentes ecosistemas.',
     ),
-  ];
-
-  static final List<Question> oruroQuestions = [
     Question(
       questionText: '¿En qué fecha se fundó oficialmente la ciudad de Oruro?',
       options: ['10 de febrero de 1781', '1 de noviembre de 1606', '6 de agosto de 1825', '5 de septiembre de 1826'],
@@ -335,13 +332,6 @@ class QuizData {
       funFact: 'Oruro es conocida como el "Primer Grito Libertario de América" por su revolución de 1781.',
     ),
     Question(
-      questionText: '¿Qué papel jugó Oruro en la Guerra del Chaco?',
-      options: ['Fue frente de batalla', 'Nexo ferroviario y de suministros', 'No participó', 'Fue capital temporal'],
-      correctAnswerIndex: 1,
-      imageAsset: 'assets/images/8.png',
-      funFact: 'El ferrocarril de Oruro fue crucial para transportar tropas y suministros durante la Guerra del Chaco (1932-1935).',
-    ),
-    Question(
       questionText: '¿Qué título dio la UNESCO al Carnaval de Oruro en 2001?',
       options: ['Patrimonio Cultural de Bolivia', 'Obra Maestra del Patrimonio Oral e Intangible', 'Reserva de la Biósfera', 'Maravilla Natural'],
       correctAnswerIndex: 1,
@@ -384,20 +374,6 @@ class QuizData {
       funFact: 'La Morenada representa la burla a los esclavos africanos que traían los conquistadores.',
     ),
     Question(
-      questionText: '¿Quién es el guía en la danza de los Caporales?',
-      options: ['El Macho Caporal', 'El Achachi', 'El Kusillo', 'El Tío'],
-      correctAnswerIndex: 0,
-      imageAsset: 'assets/images/16.png',
-      funFact: 'El Macho Caporal lidera la danza con pasos fuertes y movimientos de látigo.',
-    ),
-    Question(
-      questionText: '¿Qué institución organiza el folklore junto al municipio?',
-      options: ['ACFO (Asociación de Conjuntos del Folklore)', 'UNESCO', 'Gobernación', 'Uru Royal'],
-      correctAnswerIndex: 0,
-      imageAsset: 'assets/images/17.png',
-      funFact: 'La ACFO organiza y regula la participación de las fraternidades en el Carnaval.',
-    ),
-    Question(
       questionText: '¿A qué altura se encuentra la ciudad de Oruro?',
       options: ['2,800 m s. n. m.', '3,706 m s. n. m.', '4,200 m s. n. m.', '3,000 m s. n. m.'],
       correctAnswerIndex: 1,
@@ -412,53 +388,11 @@ class QuizData {
       funFact: 'El Lago Poopó, el segundo lago de Bolivia, se secó casi por completo en 2015-2016.',
     ),
     Question(
-      questionText: '¿Qué río conecta el Titicaca con el Poopó?',
-      options: ['Río Lauca', 'Río Desaguadero', 'Río Mamoré', 'Río Pilcomayo'],
-      correctAnswerIndex: 1,
-      imageAsset: 'assets/images/20.png',
-      funFact: 'El Río Desaguadero es el único emisario del Lago Titicaca hacia el Lago Poopó.',
-    ),
-    Question(
-      questionText: '¿Qué lago tiene alta salinidad y flamencos?',
-      options: ['Salar de Coipasa', 'Lago Uru Uru', 'Laguna Verde', 'Lago de Totora'],
-      correctAnswerIndex: 0,
-      imageAsset: 'assets/images/21.png',
-      funFact: 'El Salar de Coipasa tiene alta concentración de sal y alberga flamencos andinos.',
-    ),
-    Question(
       questionText: '¿Cuál es el pico más alto de Bolivia (ubicado en Oruro)?',
       options: ['Huayna Potosí', 'Nevado Sajama', 'Illimani', 'Mururata'],
       correctAnswerIndex: 1,
       imageAsset: 'assets/images/22.png',
       funFact: 'El Nevado Sajama es el pico más alto de Bolivia con 6,542 metros.',
-    ),
-    Question(
-      questionText: '¿En qué parque está el Nevado Sajama?',
-      options: ['Parque Nacional Sajama', 'Parque Madidi', 'Parque Noel Kempff', 'Parque Isiboro Sécure'],
-      correctAnswerIndex: 0,
-      imageAsset: 'assets/images/23.png',
-      funFact: 'El Parque Nacional Sajama protege la flora, fauna y aguas termales de la zona.',
-    ),
-    Question(
-      questionText: '¿Qué aguas termales son famosas cerca de la ciudad?',
-      options: ['Obrajes', 'Polques', 'Calientes', 'Viscachani'],
-      correctAnswerIndex: 0,
-      imageAsset: 'assets/images/25.png',
-      funFact: 'Las aguas termales de Obrajes son populares por sus propiedades medicinales.',
-    ),
-    Question(
-      questionText: '¿Con qué país limita Oruro al oeste?',
-      options: ['Perú', 'Chile', 'Argentina', 'Paraguay'],
-      correctAnswerIndex: 1,
-      imageAsset: 'assets/images/26.png',
-      funFact: 'Oruro limita con Chile a través de la frontera en el Salar de Coipasa.',
-    ),
-    Question(
-      questionText: '¿Qué etnia es llamada "la gente del agua"?',
-      options: ['Aymara', 'Uru Chipaya', 'Quechua', 'Guaraní'],
-      correctAnswerIndex: 1,
-      imageAsset: 'assets/images/27.png',
-      funFact: 'Los Uru Chipaya habitan las riberas de los lagos y son llamados "gente del agua".',
     ),
     Question(
       questionText: '¿Qué plato es cordero a la brasa?',
@@ -480,90 +414,6 @@ class QuizData {
       correctAnswerIndex: 1,
       imageAsset: 'assets/images/30.png',
       funFact: 'El Santuario del Socavón es el templo más importante del folklore boliviano.',
-    ),
-    Question(
-      questionText: '¿Qué estatua gigante domina la ciudad desde el cerro?',
-      options: ['Virgen del Socavón', 'Cristo de la Concordia', 'Simón Bolívar', 'El Minero'],
-      correctAnswerIndex: 0,
-      imageAsset: 'assets/images/31.png',
-      funFact: 'La estatua de 45 metros de la Virgen del Socavón es visible desde toda la ciudad.',
-    ),
-    Question(
-      questionText: '¿Qué museo tiene una colección de máscaras y arqueología?',
-      options: ['Museo Antropológico Eduardo López Rivas', 'Museo Patiño', 'Museo Minero', 'Museo de Arte Moderno'],
-      correctAnswerIndex: 0,
-      imageAsset: 'assets/images/32.png',
-      funFact: 'El Museo Antropológico alberga más de 2,500 máscaras del Carnaval de Oruro.',
-    ),
-    Question(
-      questionText: '¿Qué mineral produce principalmente la mina de Huanuni?',
-      options: ['Litio', 'Estaño', 'Plata', 'Gas natural'],
-      correctAnswerIndex: 1,
-      imageAsset: 'assets/images/imagenBo33.png',
-      funFact: 'Huanuni es una de las minas de estaño más importantes de Bolivia.',
-    ),
-    Question(
-      questionText: '¿Cuál es el animal símbolo de la ciudad?',
-      options: ['Llama', 'Quirquincho', 'Cóndor', 'Vicuña'],
-      correctAnswerIndex: 1,
-      imageAsset: 'assets/images/34.png',
-      funFact: 'El quirquincho (armadillo) es el símbolo de Oruro y aparece en su escudo.',
-    ),
-    Question(
-      questionText: '¿Cuál es el club de fútbol más popular de Oruro?',
-      options: ['Bolívar', 'San José', 'Oruro Royal', 'Ingenieros'],
-      correctAnswerIndex: 1,
-      imageAsset: 'assets/images/35.png',
-      funFact: 'El Club Deportivo San José es el equipo más popular y exitoso de Oruro.',
-    ),
-    Question(
-      questionText: '¿Cómo se llama la hinchada de San José?',
-      options: ['La Temible', 'Los Chiflados', 'Gurkas', 'La 12'],
-      correctAnswerIndex: 0,
-      imageAsset: 'assets/images/36.png',
-      funFact: '"La Temible" es conocida por su apoyo incondicional al Club San José.',
-    ),
-    Question(
-      questionText: '¿En qué estadio juega el equipo local?',
-      options: ['Estadio Patria', 'Estadio Jesús Bermúdez', 'Estadio Gilberto Rojas', 'Estadio Capriles'],
-      correctAnswerIndex: 1,
-      imageAsset: 'assets/images/37.png',
-      funFact: 'El Estadio Jesús Bermúdez tiene capacidad para 28,000 espectadores.',
-    ),
-    Question(
-      questionText: '¿Qué corredor internacional atraviesa el departamento?',
-      options: ['Canal de Beagle', 'Corredor Bioceánico', 'Vía Láctea', 'Autopista del Sol'],
-      correctAnswerIndex: 1,
-      imageAsset: 'assets/images/38.jpeg',
-      funFact: 'El Corredor Bioceánico conecta el Atlántico con el Pacífico a través de Oruro.',
-    ),
-    Question(
-      questionText: '¿Cuál es la actividad económica histórica de Oruro?',
-      options: ['Agricultura intensiva', 'Minería', 'Desarrollo de Software', 'Pesca comercial'],
-      correctAnswerIndex: 1,
-      imageAsset: 'assets/images/39.png',
-      funFact: 'Oruro fue fundada por la explotación minera de plata y oro.',
-    ),
-    Question(
-      questionText: '¿Qué se celebra el 1 de noviembre?',
-      options: ['Día del Niño', 'Fundación de Oruro', 'Batalla de Aroma', 'Día de la Madre'],
-      correctAnswerIndex: 1,
-      imageAsset: 'assets/images/40.png',
-      funFact: 'El 1 de noviembre se celebra la fundación de Oruro con desfiles y actos cívicos.',
-    ),
-    Question(
-      questionText: '¿Cuál es la zona comercial más grande de la ciudad?',
-      options: ['Siete Calles', 'Mercado Kantuta', 'La Cancha', 'El Tejar'],
-      correctAnswerIndex: 1,
-      imageAsset: 'assets/images/41.png',
-      funFact: 'El Mercado Kantuta es el centro comercial más importante de Oruro.',
-    ),
-    Question(
-      questionText: '¿Quién compuso el huayño "Adiós Oruro del Alma"?',
-      options: ['César Ahira', 'Gilberto Rojas', 'Yalo Cuéllar', 'Jaime Laredo'],
-      correctAnswerIndex: 0,
-      imageAsset: 'assets/images/42.png',
-      funFact: '"Adiós Oruro del Alma" es el huayño más famoso dedicado a la ciudad.',
     ),
   ];
 }
