@@ -297,10 +297,10 @@ class _WordSearchScreenState extends State<WordSearchScreen> {
                                   ? AppTheme.success
                                   : isInCurrentSelection
                                       ? AppTheme.primaryYellow
-                                      : Colors.grey[100],
+                                      : Colors.grey.shade100,
                               borderRadius: BorderRadius.circular(4),
                               border: Border.all(
-                                color: isInCurrentSelection ? AppTheme.primaryGreen : Colors.grey[300],
+                                color: isInCurrentSelection ? AppTheme.primaryGreen : Colors.grey.shade300,
                               ),
                             ),
                             child: Center(
