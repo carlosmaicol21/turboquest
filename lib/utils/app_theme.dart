@@ -1,21 +1,33 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  // Colores principales de Bolivia
-  static const Color primaryGreen = Color(0xFF007934);
-  static const Color primaryRed = Color(0xFFD52B1E);
-  static const Color primaryYellow = Color(0xFFFFB800);
+  // Colores principales de Bolivia - Paleta profesional mejorada
+  static const Color primaryGreen = Color(0xFF006B3F);
+  static const Color primaryRed = Color(0xFFD9230F);
+  static const Color primaryYellow = Color(0xFFF7B500);
   
-  // Colores neutros
+  // Colores secundarios - Paleta moderna
+  static const Color secondaryBlue = Color(0xFF2E5AAC);
+  static const Color secondaryPurple = Color(0xFF6B4C9A);
+  static const Color secondaryTeal = Color(0xFF00897B);
+  
+  // Colores neutros - Sombras y acentos
   static const Color white = Colors.white;
   static const Color black = Colors.black;
   static const Color grey = Colors.grey;
+  static const Color darkGrey = Color(0xFF2C2C2C);
+  static const Color lightGrey = Color(0xFFF5F5F5);
   
-  // Colores de estado
-  static const Color success = Colors.green;
-  static const Color error = Colors.red;
-  static const Color warning = Colors.orange;
-  static const Color info = Colors.blue;
+  // Colores de estado - Mejorados
+  static const Color success = Color(0xFF4CAF50);
+  static const Color error = Color(0xFFE53935);
+  static const Color warning = Color(0xFFFB8C00);
+  static const Color info = Color(0xFF2196F3);
+  
+  // Gradientes modernos
+  static const Color gradientStart = Color(0xFF006B3F);
+  static const Color gradientMiddle = Color(0xFF009688);
+  static const Color gradientEnd = Color(0xFFD9230F);
 
   static ThemeData get lightTheme {
     return ThemeData(
@@ -97,26 +109,54 @@ class AppTheme {
     );
   }
 
-  // Gradiente para la pantalla de inicio
+  // Gradiente para la pantalla de inicio - Moderno y profesional
   static LinearGradient get homeGradient {
     return const LinearGradient(
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
       colors: [
-        primaryGreen,
-        primaryRed,
+        gradientStart,
+        gradientMiddle,
+        gradientEnd,
       ],
+      stops: [0.0, 0.5, 1.0],
     );
   }
 
-  // Gradiente para resultados
+  // Gradiente para resultados - Vibrante
   static LinearGradient get resultGradient {
     return const LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: [
+        gradientStart,
+        secondaryTeal,
+        gradientEnd,
+      ],
+      stops: [0.0, 0.5, 1.0],
+    );
+  }
+
+  // Gradiente para tarjetas - Sutil y elegante
+  static LinearGradient get cardGradient {
+    return const LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        Color(0xFFFFFFFF),
+        Color(0xFFF5F5F5),
+      ],
+    );
+  }
+
+  // Gradiente para botones principales
+  static LinearGradient get buttonGradient {
+    return const LinearGradient(
+      begin: Alignment.centerLeft,
+      end: Alignment.centerRight,
+      colors: [
         primaryGreen,
-        Color(0xFFD52B1E),
+        secondaryTeal,
       ],
     );
   }

@@ -9,7 +9,7 @@ class WordSearchScreen extends StatefulWidget {
   State<WordSearchScreen> createState() => _WordSearchScreenState();
 }
 
-class _WordSearchScreenState extends State<WordSearchScreen> {
+class _WordSearchScreenState extends State<WordSearchScreen> with TickerProviderStateMixin {
   int currentIndex = 0;
   int score = 0;
   Set<String> foundWords = {};
@@ -18,11 +18,41 @@ class _WordSearchScreenState extends State<WordSearchScreen> {
   int? startRow;
   int? startCol;
   List<List<int>> currentSelection = [];
+  late AnimationController _fadeController;
+  late AnimationController _scaleController;
+  late Animation<double> _fadeAnimation;
+  late Animation<double> _scaleAnimation;
 
   @override
   void initState() {
     super.initState();
     _initializeCurrentPuzzle();
+    
+    _fadeController = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+    _scaleController = AnimationController(
+      duration: const Duration(milliseconds: 600),
+      vsync: this,
+    );
+    
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _fadeController, curve: Curves.easeInOut),
+    );
+    _scaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
+      CurvedAnimation(parent: _scaleController, curve: Curves.elasticOut),
+    );
+    
+    _fadeController.forward();
+    _scaleController.forward();
+  }
+
+  @override
+  void dispose() {
+    _fadeController.dispose();
+    _scaleController.dispose();
+    super.dispose();
   }
 
   void _initializeCurrentPuzzle() {
@@ -145,6 +175,7 @@ class _WordSearchScreenState extends State<WordSearchScreen> {
         title: Text('Sopa ${currentIndex + 1}/${WordSearchData.puzzles.length}'),
         backgroundColor: AppTheme.primaryGreen,
         foregroundColor: AppTheme.white,
+        elevation: 0,
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -153,49 +184,58 @@ class _WordSearchScreenState extends State<WordSearchScreen> {
         child: SafeArea(
           child: Center(
             child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 20),
-                  
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Colors.white.withOpacity(0.3)),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.star, color: Colors.amber),
-                        const SizedBox(width: 8),
-                        Text(
-                          'Puntuación: $score/${puzzle.words.length}',
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: AppTheme.white,
+              child: FadeTransition(
+                opacity: _fadeAnimation,
+                child: ScaleTransition(
+                  scale: _scaleAnimation,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 20),
+                      
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.white.withOpacity(0.25),
+                              Colors.white.withOpacity(0.15),
+                            ],
                           ),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: Colors.white.withOpacity(0.4)),
                         ),
-                      ],
-                    ),
-                  ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.star, color: Colors.amber),
+                            const SizedBox(width: 8),
+                            Text(
+                              'Puntuación: $score/${puzzle.words.length}',
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: AppTheme.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
 
                   const SizedBox(height: 20),
 
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.95),
-                      borderRadius: BorderRadius.circular(20),
+                      gradient: AppTheme.cardGradient,
+                      borderRadius: BorderRadius.circular(24),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          blurRadius: 10,
-                          offset: const Offset(0, 5),
+                          color: Colors.black.withOpacity(0.15),
+                          blurRadius: 20,
+                          offset: const Offset(0, 10),
                         ),
                       ],
                     ),
@@ -209,7 +249,7 @@ class _WordSearchScreenState extends State<WordSearchScreen> {
                             color: AppTheme.primaryGreen,
                           ),
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 12),
                         Wrap(
                           spacing: 10,
                           runSpacing: 10,
@@ -217,12 +257,25 @@ class _WordSearchScreenState extends State<WordSearchScreen> {
                           children: puzzle.words.map((word) {
                             final isFound = foundWords.contains(word);
                             return Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                               decoration: BoxDecoration(
-                                color: isFound ? AppTheme.success.withOpacity(0.2) : Colors.grey[200],
+                                gradient: isFound 
+                                    ? LinearGradient(
+                                        colors: [
+                                          AppTheme.success.withOpacity(0.3),
+                                          AppTheme.success.withOpacity(0.1),
+                                        ],
+                                      )
+                                    : LinearGradient(
+                                        colors: [
+                                          Colors.grey.shade200,
+                                          Colors.grey.shade100,
+                                        ],
+                                      ),
                                 borderRadius: BorderRadius.circular(20),
                                 border: Border.all(
-                                  color: isFound ? AppTheme.success : Colors.grey,
+                                  color: isFound ? AppTheme.success : Colors.grey.shade400,
+                                  width: 1.5,
                                 ),
                               ),
                               child: Text(
@@ -230,7 +283,7 @@ class _WordSearchScreenState extends State<WordSearchScreen> {
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
-                                  color: isFound ? AppTheme.success : Colors.grey[700],
+                                  color: isFound ? AppTheme.success : Colors.grey.shade700,
                                   decoration: isFound ? TextDecoration.lineThrough : null,
                                 ),
                               ),
@@ -245,15 +298,15 @@ class _WordSearchScreenState extends State<WordSearchScreen> {
 
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
+                      gradient: AppTheme.cardGradient,
+                      borderRadius: BorderRadius.circular(24),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          blurRadius: 10,
-                          offset: const Offset(0, 5),
+                          color: Colors.black.withOpacity(0.15),
+                          blurRadius: 20,
+                          offset: const Offset(0, 10),
                         ),
                       ],
                     ),

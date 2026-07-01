@@ -9,17 +9,47 @@ class WordCompletionScreen extends StatefulWidget {
   State<WordCompletionScreen> createState() => _WordCompletionScreenState();
 }
 
-class _WordCompletionScreenState extends State<WordCompletionScreen> {
+class _WordCompletionScreenState extends State<WordCompletionScreen> with TickerProviderStateMixin {
   int currentIndex = 0;
   int score = 0;
   List<String> userLetters = [];
   List<bool> revealedLetters = [];
   bool isCompleted = false;
+  late AnimationController _fadeController;
+  late AnimationController _scaleController;
+  late Animation<double> _fadeAnimation;
+  late Animation<double> _scaleAnimation;
 
   @override
   void initState() {
     super.initState();
     _initializeCurrentWord();
+    
+    _fadeController = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+    _scaleController = AnimationController(
+      duration: const Duration(milliseconds: 600),
+      vsync: this,
+    );
+    
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _fadeController, curve: Curves.easeInOut),
+    );
+    _scaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
+      CurvedAnimation(parent: _scaleController, curve: Curves.elasticOut),
+    );
+    
+    _fadeController.forward();
+    _scaleController.forward();
+  }
+
+  @override
+  void dispose() {
+    _fadeController.dispose();
+    _scaleController.dispose();
+    super.dispose();
   }
 
   void _initializeCurrentWord() {
@@ -96,6 +126,7 @@ class _WordCompletionScreenState extends State<WordCompletionScreen> {
         title: Text('Palabra ${currentIndex + 1}/${WordCompletionData.items.length}'),
         backgroundColor: AppTheme.primaryGreen,
         foregroundColor: AppTheme.white,
+        elevation: 0,
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -104,49 +135,58 @@ class _WordCompletionScreenState extends State<WordCompletionScreen> {
         child: SafeArea(
           child: Center(
             child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 20),
-                  
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Colors.white.withOpacity(0.3)),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.star, color: Colors.amber),
-                        const SizedBox(width: 8),
-                        Text(
-                          'Puntuación: $score/${WordCompletionData.items.length}',
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: AppTheme.white,
+              child: FadeTransition(
+                opacity: _fadeAnimation,
+                child: ScaleTransition(
+                  scale: _scaleAnimation,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 20),
+                      
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.white.withOpacity(0.25),
+                              Colors.white.withOpacity(0.15),
+                            ],
                           ),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: Colors.white.withOpacity(0.4)),
                         ),
-                      ],
-                    ),
-                  ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.star, color: Colors.amber),
+                            const SizedBox(width: 8),
+                            Text(
+                              'Puntuación: $score/${WordCompletionData.items.length}',
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: AppTheme.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
 
                   const SizedBox(height: 30),
 
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
-                    padding: const EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(24),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.95),
-                      borderRadius: BorderRadius.circular(20),
+                      gradient: AppTheme.cardGradient,
+                      borderRadius: BorderRadius.circular(24),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          blurRadius: 10,
-                          offset: const Offset(0, 5),
+                          color: Colors.black.withOpacity(0.15),
+                          blurRadius: 20,
+                          offset: const Offset(0, 10),
                         ),
                       ],
                     ),
@@ -161,11 +201,11 @@ class _WordCompletionScreenState extends State<WordCompletionScreen> {
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 24),
                         
                         Wrap(
-                          spacing: 8,
-                          runSpacing: 8,
+                          spacing: 10,
+                          runSpacing: 10,
                           alignment: WrapAlignment.center,
                           children: List.generate(
                             item.word.length,
