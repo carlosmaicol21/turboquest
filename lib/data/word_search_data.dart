@@ -1,20 +1,49 @@
 class WordSearchData {
   static const String _alphabet = 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ';
+  static const int _maxConsecutiveSame = 2;
   
-  static String _getRandomLetter() {
-    final random = DateTime.now().millisecondsSinceEpoch;
-    return _alphabet[random % _alphabet.length];
+  static String _getRandomLetter({String? previousLetter, int consecutiveCount = 0}) {
+    String letter;
+    int attempts = 0;
+    
+    do {
+      final random = DateTime.now().millisecondsSinceEpoch + attempts;
+      letter = _alphabet[random % _alphabet.length];
+      attempts++;
+    } while (previousLetter != null && 
+             letter == previousLetter && 
+             consecutiveCount >= _maxConsecutiveSame &&
+             attempts < 10);
+    
+    return letter;
   }
   
   static List<List<String>> _fillGridWithRandomLetters(List<List<String>> grid) {
     final filledGrid = <List<String>>[];
+    String? previousLetter;
+    int consecutiveCount = 0;
+    
     for (var row in grid) {
       final filledRow = <String>[];
       for (var cell in row) {
         if (cell == 'X' || cell == 'Y' || cell == 'Z') {
-          filledRow.add(_getRandomLetter());
+          final newLetter = _getRandomLetter(
+            previousLetter: previousLetter,
+            consecutiveCount: consecutiveCount,
+          );
+          
+          if (newLetter == previousLetter) {
+            consecutiveCount++;
+          } else {
+            consecutiveCount = 0;
+            previousLetter = newLetter;
+          }
+          
+          filledRow.add(newLetter);
         } else {
           filledRow.add(cell);
+          previousLetter = null;
+          consecutiveCount = 0;
         }
       }
       filledGrid.add(filledRow);
