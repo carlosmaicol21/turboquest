@@ -86,9 +86,14 @@ class _WordSearchScreenState extends State<WordSearchScreen> with TickerProvider
   void _handleCellDrag(int row, int col) {
     if (!isSelecting || startRow == null || startCol == null) return;
     
-    setState(() {
-      currentSelection = _getSelectionPath(startRow!, startCol!, row, col);
-    });
+    final puzzle = WordSearchData.puzzles[currentIndex];
+    final path = _getSelectionPath(startRow!, startCol!, row, col);
+    
+    if (path.length > 1) {
+      setState(() {
+        currentSelection = path;
+      });
+    }
   }
 
   List<List<int>> _getSelectionPath(int startR, int startC, int endR, int endC) {
@@ -99,7 +104,14 @@ class _WordSearchScreenState extends State<WordSearchScreen> with TickerProvider
     int rowDir = endR.compareTo(startR);
     int colDir = endC.compareTo(startC);
     
+    // Solo permitir selección horizontal, vertical o diagonal perfecta
     if (rowDir != 0 && colDir != 0 && rowDir.abs() != colDir.abs()) {
+      return [[startR, startC]];
+    }
+    
+    // Validar que la selección esté dentro de los límites
+    final puzzle = WordSearchData.puzzles[currentIndex];
+    if (endR < 0 || endR >= puzzle.gridSize || endC < 0 || endC >= puzzle.gridSize) {
       return [[startR, startC]];
     }
     

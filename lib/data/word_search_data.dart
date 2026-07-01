@@ -1,9 +1,32 @@
 class WordSearchData {
+  static const String _alphabet = 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ';
+  
+  static String _getRandomLetter() {
+    final random = DateTime.now().millisecondsSinceEpoch;
+    return _alphabet[random % _alphabet.length];
+  }
+  
+  static List<List<String>> _fillGridWithRandomLetters(List<List<String>> grid) {
+    final filledGrid = <List<String>>[];
+    for (var row in grid) {
+      final filledRow = <String>[];
+      for (var cell in row) {
+        if (cell == 'X' || cell == 'Y' || cell == 'Z') {
+          filledRow.add(_getRandomLetter());
+        } else {
+          filledRow.add(cell);
+        }
+      }
+      filledGrid.add(filledRow);
+    }
+    return filledGrid;
+  }
+  
   static final List<WordSearchPuzzle> puzzles = [
     WordSearchPuzzle(
       gridSize: 10,
       words: ['BOLIVIA', 'SUCRE', 'LLAMA', 'TITICACA'],
-      grid: [
+      grid: _fillGridWithRandomLetters([
         ['B', 'O', 'L', 'I', 'V', 'I', 'A', 'X', 'Y', 'Z'],
         ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
         ['S', 'U', 'C', 'R', 'E', 'X', 'X', 'X', 'X', 'X'],
@@ -14,16 +37,16 @@ class WordSearchData {
         ['M', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
         ['A', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
         ['T', 'I', 'T', 'I', 'C', 'A', 'C', 'A', 'X', 'X'],
-      ],
+      ]),
       funFact: 'Bolivia tiene 9 departamentos y 37 idiomas oficiales.',
     ),
     WordSearchPuzzle(
       gridSize: 10,
       words: ['SAJAMA', 'CHARANGO', 'KANTUTA'],
-      grid: [
+      grid: _fillGridWithRandomLetters([
         ['S', 'A', 'J', 'A', 'M', 'A', 'X', 'X', 'X', 'X'],
         ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-        ['C', 'H', 'A', 'R', 'A', 'N', 'G', 'O', 'X', 'X'],
+        ['C', 'H', 'A', 'R', 'A', 'N', 'G', 'O', 'X', ' '],
         ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
         ['K', 'A', 'N', 'T', 'U', 'T', 'A', 'X', 'X', 'X'],
         ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
@@ -31,13 +54,13 @@ class WordSearchData {
         ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
         ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
         ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-      ],
+      ]),
       funFact: 'El Nevado Sajama es el pico más alto de Bolivia con 6,542 metros.',
     ),
     WordSearchPuzzle(
       gridSize: 10,
       words: ['ORURO', 'POTOSI', 'SALAR'],
-      grid: [
+      grid: _fillGridWithRandomLetters([
         ['O', 'R', 'U', 'R', 'O', 'X', 'X', 'X', 'X', 'X'],
         ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
         ['P', 'O', 'T', 'O', 'S', 'I', 'X', 'X', 'X', 'X'],
@@ -48,13 +71,13 @@ class WordSearchData {
         ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
         ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
         ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-      ],
+      ]),
       funFact: 'El Salar de Uyuni es el desierto de sal más grande del mundo con más de 10,000 km².',
     ),
     WordSearchPuzzle(
       gridSize: 10,
       words: ['COCHABAMBA', 'SANTACRUZ', 'LA PAZ'],
-      grid: [
+      grid: _fillGridWithRandomLetters([
         ['C', 'O', 'C', 'H', 'A', 'B', 'A', 'M', 'B', 'A'],
         ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
         ['S', 'A', 'N', 'T', 'A', 'C', 'R', 'U', 'Z', 'X'],
@@ -65,13 +88,13 @@ class WordSearchData {
         ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
         ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
         ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-      ],
+      ]),
       funFact: 'Cochabamba es conocida como el Granero de Bolivia por su producción agrícola.',
     ),
     WordSearchPuzzle(
       gridSize: 10,
       words: ['WIPHALA', 'PATUJU', 'DIABLADA'],
-      grid: [
+      grid: _fillGridWithRandomLetters([
         ['W', 'I', 'P', 'H', 'A', 'L', 'A', 'X', 'X', 'X'],
         ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
         ['P', 'A', 'T', 'U', 'J', 'U', 'X', 'X', 'X', 'X'],
@@ -82,7 +105,7 @@ class WordSearchData {
         ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
         ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
         ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
-      ],
+      ]),
       funFact: 'La Wiphala es el símbolo de los pueblos indígenas de Bolivia.',
     ),
   ];
