@@ -174,149 +174,151 @@ class _WordCompletionScreenState extends State<WordCompletionScreen> with Ticker
                         ),
                       ),
 
-                  const SizedBox(height: 30),
+                      const SizedBox(height: 30),
 
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                    padding: const EdgeInsets.all(24),
-                    decoration: BoxDecoration(
-                      gradient: AppTheme.cardGradient,
-                      borderRadius: BorderRadius.circular(24),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.15),
-                          blurRadius: 20,
-                          offset: const Offset(0, 10),
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        padding: const EdgeInsets.all(24),
+                        decoration: BoxDecoration(
+                          gradient: AppTheme.cardGradient,
+                          borderRadius: BorderRadius.circular(24),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.15),
+                              blurRadius: 20,
+                              offset: const Offset(0, 10),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          item.hint,
-                          style: const TextStyle(
-                            fontSize: 20,
+                        child: Column(
+                          children: [
+                            Text(
+                              item.hint,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: AppTheme.primaryGreen,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 24),
+                            
+                            Wrap(
+                              spacing: 10,
+                              runSpacing: 10,
+                              alignment: WrapAlignment.center,
+                              children: List.generate(
+                                item.word.length,
+                                (index) => _buildLetterBox(index, item.word[index]),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: 30),
+
+                      if (!isCompleted) ...[
+                        const Text(
+                          'Selecciona las letras:',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: AppTheme.white,
                             fontWeight: FontWeight.bold,
-                            color: AppTheme.primaryGreen,
                           ),
-                          textAlign: TextAlign.center,
                         ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 10),
                         
                         Wrap(
                           spacing: 10,
                           runSpacing: 10,
                           alignment: WrapAlignment.center,
-                          children: List.generate(
-                            item.word.length,
-                            (index) => _buildLetterBox(index, item.word[index]),
-                          ),
+                          children: [
+                            ...['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'].map((letter) =>
+                              _buildKeyboardButton(letter, item)),
+                            ...['K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S'].map((letter) =>
+                              _buildKeyboardButton(letter, item)),
+                            ...['T', 'U', 'V', 'W', 'X', 'Y', 'Z'].map((letter) =>
+                              _buildKeyboardButton(letter, item)),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(height: 30),
-
-                  if (!isCompleted) ...[
-                    const Text(
-                      'Selecciona las letras:',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: AppTheme.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    
-                    Wrap(
-                      spacing: 10,
-                      runSpacing: 10,
-                      alignment: WrapAlignment.center,
-                      children: [
-                        ...['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'].map((letter) =>
-                          _buildKeyboardButton(letter, item)),
-                        ...['K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S'].map((letter) =>
-                          _buildKeyboardButton(letter, item)),
-                        ...['T', 'U', 'V', 'W', 'X', 'Y', 'Z'].map((letter) =>
-                          _buildKeyboardButton(letter, item)),
-                      ],
-                    ),
-                    
-                    const SizedBox(height: 20),
-                    
-                    ElevatedButton.icon(
-                      onPressed: _revealLetter,
-                      icon: const Icon(Icons.lightbulb),
-                      label: const Text('Pista'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppTheme.primaryYellow,
-                        foregroundColor: AppTheme.black,
-                        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
-                    ),
-                  ],
-
-                  if (isCompleted) ...[
-                    Container(
-                      margin: const EdgeInsets.all(16),
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: AppTheme.success.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppTheme.success),
-                      ),
-                      child: Column(
-                        children: [
-                          const Icon(Icons.check_circle, color: AppTheme.success, size: 40),
-                          const SizedBox(height: 8),
-                          const Text(
-                            '¡Correcto!',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: AppTheme.success,
+                        
+                        const SizedBox(height: 20),
+                        
+                        ElevatedButton.icon(
+                          onPressed: _revealLetter,
+                          icon: const Icon(Icons.lightbulb),
+                          label: const Text('Pista'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppTheme.primaryYellow,
+                            foregroundColor: AppTheme.black,
+                            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
                             ),
                           ),
-                          const SizedBox(height: 8),
-                          Text(
-                            item.funFact,
-                            style: const TextStyle(fontSize: 14),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
-                    
-                    const SizedBox(height: 20),
-                    
-                    ElevatedButton(
-                      onPressed: _nextWord,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppTheme.primaryRed,
-                        foregroundColor: AppTheme.white,
-                        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
                         ),
-                      ),
-                      child: Text(
-                        currentIndex < WordCompletionData.items.length - 1
-                            ? 'SIGUIENTE'
-                            : 'VER RESULTADOS',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
+                      ],
 
-                  const SizedBox(height: 20),
-                ],
+                      if (isCompleted) ...[
+                        Container(
+                          margin: const EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: AppTheme.success.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: AppTheme.success),
+                          ),
+                          child: Column(
+                            children: [
+                              const Icon(Icons.check_circle, color: AppTheme.success, size: 40),
+                              const SizedBox(height: 8),
+                              const Text(
+                                '¡Correcto!',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppTheme.success,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                item.funFact,
+                                style: const TextStyle(fontSize: 14),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                        
+                        const SizedBox(height: 20),
+                        
+                        ElevatedButton(
+                          onPressed: _nextWord,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppTheme.primaryRed,
+                            foregroundColor: AppTheme.white,
+                            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                          child: Text(
+                            currentIndex < WordCompletionData.items.length - 1
+                                ? 'SIGUIENTE'
+                                : 'VER RESULTADOS',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+
+                      const SizedBox(height: 20),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),

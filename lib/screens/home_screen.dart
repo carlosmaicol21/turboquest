@@ -118,125 +118,123 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                  const SizedBox(height: 24),
-                  const Text(
-                    'TEST DE CONOCIMIENTOS',
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      letterSpacing: 1.2,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 40),
-                    child: Text(
-                      '¡Elige un juego y demuestra lo que sabes!',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white.withOpacity(0.9),
-                        fontWeight: FontWeight.w400,
+                      const SizedBox(height: 24),
+                      const Text(
+                        'TEST DE CONOCIMIENTOS',
+                        style: TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          letterSpacing: 1.2,
+                        ),
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  
-                  // Estadísticas del usuario
-                  if (_totalGames > 0)
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 30),
-                      padding: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Colors.white.withOpacity(0.25),
-                            Colors.white.withOpacity(0.15),
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: Colors.white.withOpacity(0.4),
-                          width: 1.5,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 10,
-                            offset: const Offset(0, 5),
+                      const SizedBox(height: 12),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40),
+                        child: Text(
+                          '¡Elige un juego y demuestra lo que sabes!',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white.withOpacity(0.9),
+                            fontWeight: FontWeight.w400,
                           ),
-                        ],
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          _buildStatColumn('$_totalGames', 'Partidas'),
-                          _buildStatColumn('$_bestScore', 'Mejor'),
-                          _buildStatColumn('${_averageScore.toStringAsFixed(1)}', 'Promedio'),
-                        ],
+                      const SizedBox(height: 24),
+                      
+                      if (_totalGames > 0)
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 30),
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.white.withOpacity(0.25),
+                                Colors.white.withOpacity(0.15),
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: Colors.white.withOpacity(0.4),
+                              width: 1.5,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 10,
+                                offset: const Offset(0, 5),
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              _buildStatColumn('$_totalGames', 'Partidas'),
+                              _buildStatColumn('$_bestScore', 'Mejor'),
+                              _buildStatColumn('${_averageScore.toStringAsFixed(1)}', 'Promedio'),
+                            ],
+                          ),
+                        ),
+                      
+                      const SizedBox(height: 32),
+                      
+                      _buildGameCard(
+                        title: 'QUIZ',
+                        subtitle: 'Preguntas sobre Bolivia y Oruro',
+                        icon: Icons.quiz,
+                        color: AppTheme.primaryRed,
+                        count: QuizData.quizQuestions.length,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => QuizScreen(category: QuizCategory.quiz),
+                            ),
+                          );
+                        },
                       ),
-                    ),
-                  
-                  const SizedBox(height: 32),
-                  
-                  // Quiz Card
-                  _buildGameCard(
-                    title: 'QUIZ',
-                    subtitle: 'Preguntas sobre Bolivia y Oruro',
-                    icon: Icons.quiz,
-                    color: AppTheme.primaryRed,
-                    count: QuizData.quizQuestions.length,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => QuizScreen(category: QuizCategory.quiz),
-                        ),
-                      );
-                    },
+                      
+                      const SizedBox(height: 20),
+                      
+                      _buildGameCard(
+                        title: 'COMPLETA LA PALABRA',
+                        subtitle: 'Completa palabras de Bolivia',
+                        icon: Icons.spellcheck,
+                        color: AppTheme.primaryGreen,
+                        count: 15,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const WordCompletionScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                      
+                      const SizedBox(height: 20),
+                      
+                      _buildGameCard(
+                        title: 'SOPA DE LETRAS',
+                        subtitle: 'Encuentra palabras escondidas',
+                        icon: Icons.grid_on,
+                        color: AppTheme.primaryYellow,
+                        count: 5,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const WordSearchScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                      
+                      const SizedBox(height: 50),
+                    ],
                   ),
-                  
-                  const SizedBox(height: 20),
-                  
-                  // Word Completion Card
-                  _buildGameCard(
-                    title: 'COMPLETA LA PALABRA',
-                    subtitle: 'Completa palabras de Bolivia',
-                    icon: Icons.spellcheck,
-                    color: AppTheme.primaryGreen,
-                    count: 15,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const WordCompletionScreen(),
-                        ),
-                      );
-                    },
-                  ),
-                  
-                  const SizedBox(height: 20),
-                  
-                  // Word Search Card
-                  _buildGameCard(
-                    title: 'SOPA DE LETRAS',
-                    subtitle: 'Encuentra palabras escondidas',
-                    icon: Icons.grid_on,
-                    color: AppTheme.primaryYellow,
-                    count: 5,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const WordSearchScreen(),
-                        ),
-                      );
-                    },
-                  ),
-                  
-                  const SizedBox(height: 50),
-                ],
+                ),
               ),
             ),
           ),

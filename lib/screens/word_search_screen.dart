@@ -99,7 +99,6 @@ class _WordSearchScreenState extends State<WordSearchScreen> with TickerProvider
     int rowDir = endR.compareTo(startR);
     int colDir = endC.compareTo(startC);
     
-    // Solo permitir selección horizontal, vertical o diagonal
     if (rowDir != 0 && colDir != 0 && rowDir.abs() != colDir.abs()) {
       return [[startR, startC]];
     }
@@ -223,214 +222,216 @@ class _WordSearchScreenState extends State<WordSearchScreen> with TickerProvider
                         ),
                       ),
 
-                  const SizedBox(height: 20),
+                      const SizedBox(height: 20),
 
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      gradient: AppTheme.cardGradient,
-                      borderRadius: BorderRadius.circular(24),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.15),
-                          blurRadius: 20,
-                          offset: const Offset(0, 10),
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          gradient: AppTheme.cardGradient,
+                          borderRadius: BorderRadius.circular(24),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.15),
+                              blurRadius: 20,
+                              offset: const Offset(0, 10),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        const Text(
-                          'Palabras a encontrar:',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: AppTheme.primaryGreen,
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        Wrap(
-                          spacing: 10,
-                          runSpacing: 10,
-                          alignment: WrapAlignment.center,
-                          children: puzzle.words.map((word) {
-                            final isFound = foundWords.contains(word);
-                            return Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                              decoration: BoxDecoration(
-                                gradient: isFound 
-                                    ? LinearGradient(
-                                        colors: [
-                                          AppTheme.success.withOpacity(0.3),
-                                          AppTheme.success.withOpacity(0.1),
-                                        ],
-                                      )
-                                    : LinearGradient(
-                                        colors: [
-                                          Colors.grey.shade200,
-                                          Colors.grey.shade100,
-                                        ],
-                                      ),
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                  color: isFound ? AppTheme.success : Colors.grey.shade400,
-                                  width: 1.5,
-                                ),
+                        child: Column(
+                          children: [
+                            const Text(
+                              'Palabras a encontrar:',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: AppTheme.primaryGreen,
                               ),
-                              child: Text(
-                                word,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: isFound ? AppTheme.success : Colors.grey.shade700,
-                                  decoration: isFound ? TextDecoration.lineThrough : null,
+                            ),
+                            const SizedBox(height: 12),
+                            Wrap(
+                              spacing: 10,
+                              runSpacing: 10,
+                              alignment: WrapAlignment.center,
+                              children: puzzle.words.map((word) {
+                                final isFound = foundWords.contains(word);
+                                return Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                                  decoration: BoxDecoration(
+                                    gradient: isFound 
+                                        ? LinearGradient(
+                                            colors: [
+                                              AppTheme.success.withOpacity(0.3),
+                                              AppTheme.success.withOpacity(0.1),
+                                            ],
+                                          )
+                                        : LinearGradient(
+                                            colors: [
+                                              Colors.grey.shade200,
+                                              Colors.grey.shade100,
+                                            ],
+                                          ),
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(
+                                      color: isFound ? AppTheme.success : Colors.grey.shade400,
+                                      width: 1.5,
+                                    ),
+                                  ),
+                                  child: Text(
+                                    word,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: isFound ? AppTheme.success : Colors.grey.shade700,
+                                      decoration: isFound ? TextDecoration.lineThrough : null,
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          gradient: AppTheme.cardGradient,
+                          borderRadius: BorderRadius.circular(24),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.15),
+                              blurRadius: 20,
+                              offset: const Offset(0, 10),
+                            ),
+                          ],
+                        ),
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: puzzle.gridSize,
+                            crossAxisSpacing: 4,
+                            mainAxisSpacing: 4,
+                          ),
+                          itemCount: puzzle.gridSize * puzzle.gridSize,
+                          itemBuilder: (context, index) {
+                            final row = index ~/ puzzle.gridSize;
+                            final col = index % puzzle.gridSize;
+                            final isSelected = selectedCells[row][col];
+                            final isInCurrentSelection = currentSelection.any((pos) => pos[0] == row && pos[1] == col);
+                            
+                            return GestureDetector(
+                              onTapDown: (_) => _handleCellTap(row, col),
+                              onPanUpdate: (details) {
+                                final RenderBox box = context.findRenderObject() as RenderBox;
+                                final localPosition = box.globalToLocal(details.globalPosition);
+                                final cellSize = box.size.width / puzzle.gridSize;
+                                final tappedRow = (localPosition.dy / cellSize).floor();
+                                final tappedCol = (localPosition.dx / cellSize).floor();
+                                
+                                if (tappedRow >= 0 && tappedRow < puzzle.gridSize &&
+                                    tappedCol >= 0 && tappedCol < puzzle.gridSize) {
+                                  _handleCellDrag(tappedRow, tappedCol);
+                                }
+                              },
+                              onPanEnd: (_) {
+                                if (currentSelection.isNotEmpty) {
+                                  _checkSelection(currentSelection.last[0], currentSelection.last[1]);
+                                }
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: isSelected
+                                      ? AppTheme.success
+                                      : isInCurrentSelection
+                                          ? AppTheme.primaryYellow
+                                          : Colors.grey.shade100,
+                                  borderRadius: BorderRadius.circular(4),
+                                  border: Border.all(
+                                    color: isInCurrentSelection ? AppTheme.primaryGreen : Colors.grey.shade300,
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    puzzle.grid[row][col],
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: isSelected ? AppTheme.white : AppTheme.black,
+                                    ),
+                                  ),
                                 ),
                               ),
                             );
-                          }).toList(),
+                          },
                         ),
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      gradient: AppTheme.cardGradient,
-                      borderRadius: BorderRadius.circular(24),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.15),
-                          blurRadius: 20,
-                          offset: const Offset(0, 10),
-                        ),
-                      ],
-                    ),
-                    child: GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: puzzle.gridSize,
-                        crossAxisSpacing: 4,
-                        mainAxisSpacing: 4,
                       ),
-                      itemCount: puzzle.gridSize * puzzle.gridSize,
-                      itemBuilder: (context, index) {
-                        final row = index ~/ puzzle.gridSize;
-                        final col = index % puzzle.gridSize;
-                        final isSelected = selectedCells[row][col];
-                        final isInCurrentSelection = currentSelection.any((pos) => pos[0] == row && pos[1] == col);
-                        
-                        return GestureDetector(
-                          onTapDown: (_) => _handleCellTap(row, col),
-                          onPanUpdate: (details) {
-                            final RenderBox box = context.findRenderObject() as RenderBox;
-                            final localPosition = box.globalToLocal(details.globalPosition);
-                            final cellSize = box.size.width / puzzle.gridSize;
-                            final tappedRow = (localPosition.dy / cellSize).floor();
-                            final tappedCol = (localPosition.dx / cellSize).floor();
-                            
-                            if (tappedRow >= 0 && tappedRow < puzzle.gridSize &&
-                                tappedCol >= 0 && tappedCol < puzzle.gridSize) {
-                              _handleCellDrag(tappedRow, tappedCol);
-                            }
-                          },
-                          onPanEnd: (_) {
-                            if (currentSelection.isNotEmpty) {
-                              _checkSelection(currentSelection.last[0], currentSelection.last[1]);
-                            }
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: isSelected
-                                  ? AppTheme.success
-                                  : isInCurrentSelection
-                                      ? AppTheme.primaryYellow
-                                      : Colors.grey.shade100,
-                              borderRadius: BorderRadius.circular(4),
-                              border: Border.all(
-                                color: isInCurrentSelection ? AppTheme.primaryGreen : Colors.grey.shade300,
-                              ),
-                            ),
-                            child: Center(
-                              child: Text(
-                                puzzle.grid[row][col],
+
+                      const SizedBox(height: 20),
+
+                      if (foundWords.length == puzzle.words.length) ...[
+                        Container(
+                          margin: const EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: AppTheme.success.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: AppTheme.success),
+                          ),
+                          child: Column(
+                            children: [
+                              const Icon(Icons.check_circle, color: AppTheme.success, size: 40),
+                              const SizedBox(height: 8),
+                              const Text(
+                                '¡Completado!',
                                 style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.bold,
-                                  color: isSelected ? AppTheme.white : AppTheme.black,
+                                  color: AppTheme.success,
                                 ),
                               ),
+                              const SizedBox(height: 8),
+                              Text(
+                                puzzle.funFact,
+                                style: const TextStyle(fontSize: 14),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                        
+                        const SizedBox(height: 10),
+                        
+                        ElevatedButton(
+                          onPressed: _nextPuzzle,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppTheme.primaryRed,
+                            foregroundColor: AppTheme.white,
+                            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
                             ),
                           ),
-                        );
-                      },
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  if (foundWords.length == puzzle.words.length) ...[
-                    Container(
-                      margin: const EdgeInsets.all(16),
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: AppTheme.success.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppTheme.success),
-                      ),
-                      child: Column(
-                        children: [
-                          const Icon(Icons.check_circle, color: AppTheme.success, size: 40),
-                          const SizedBox(height: 8),
-                          const Text(
-                            '¡Completado!',
-                            style: TextStyle(
-                              fontSize: 20,
+                          child: Text(
+                            currentIndex < WordSearchData.puzzles.length - 1
+                                ? 'SIGUIENTE'
+                                : 'VER RESULTADOS',
+                            style: const TextStyle(
+                              fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: AppTheme.success,
                             ),
                           ),
-                          const SizedBox(height: 8),
-                          Text(
-                            puzzle.funFact,
-                            style: const TextStyle(fontSize: 14),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
-                    
-                    const SizedBox(height: 10),
-                    
-                    ElevatedButton(
-                      onPressed: _nextPuzzle,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppTheme.primaryRed,
-                        foregroundColor: AppTheme.white,
-                        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
                         ),
-                      ),
-                      child: Text(
-                        currentIndex < WordSearchData.puzzles.length - 1
-                            ? 'SIGUIENTE'
-                            : 'VER RESULTADOS',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
+                      ],
 
-                  const SizedBox(height: 20),
-                ],
+                      const SizedBox(height: 20),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
